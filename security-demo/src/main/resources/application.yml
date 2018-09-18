@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xx?useUnicode=yes&characterEncode=UTF-8&useSSL=true
     username: root
-    password: corner666
+    password: root
   session:
     store-type: none
 # 配置返回时json中将Date转为时间戳
