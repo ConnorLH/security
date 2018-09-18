@@ -2,6 +2,7 @@ package cn.corner.web.dto;
 
 import cn.corner.web.validation.MyValidate;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -14,6 +15,7 @@ public class User {
     public interface UserDetailView extends UserSimpleView{}
 
     @MyValidate(message = "这是一个测试")
+    @ApiModelProperty("用户名")
     private String username;
 
     @NotBlank(message = "密码不能为空")

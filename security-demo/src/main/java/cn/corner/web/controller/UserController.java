@@ -3,6 +3,7 @@ package cn.corner.web.controller;
 import cn.corner.web.dto.User;
 import cn.corner.web.exception.UserNotExistException;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class UserController {
     //@RequestMapping(value = "/user",method = RequestMethod.GET)
     @GetMapping
     @JsonView(User.UserSimpleView.class)
+    @ApiOperation(value = "用户查询服务")
     public List<User> getUser(@RequestParam String username){
         List<User> list = new ArrayList<User>();
         list.add(new User());
