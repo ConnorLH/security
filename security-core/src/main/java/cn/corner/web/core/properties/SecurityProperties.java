@@ -9,4 +9,6 @@ public class SecurityProperties {
 
     private BrowserProperties browser = new BrowserProperties();
 
+    private ValicateCodeProperties code = new ValicateCodeProperties();
+
 }

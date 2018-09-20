@@ -10,8 +10,14 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: true
-corner:
-  security:
-    browser:
-      loginPage: /demo-sign.html
-      loginType: REDIRECT
+#corner:
+#  security:
+#    browser:
+#      loginPage: /demo-sign.html
+#      loginType: REDIRECT
+#      loginType: JSON
+#    code:
+#      imageCode:
+#        length: 5
+#        width: 100
+#        url: /user,/user/*

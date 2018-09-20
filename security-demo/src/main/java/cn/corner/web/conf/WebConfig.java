@@ -16,4 +16,9 @@ public class WebConfig implements WebMvcConfigurer {
         configurer.registerCallableInterceptors(interceptor);
         //configurer.registerDeferredResultInterceptors();
     }
+
+    /*@Bean
+    public ValidateCodeGenerator imageCodeGenerator(){
+        return new DemoImageCodeGenerator();
+    }*/
 }

@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
-    private String loginPage = "/mysign.html";
+    private String loginPage = "/mysmssign.html";
 
     private LoginType loginType = LoginType.JSON;
+
+    private int rememberMeSeconds = 3600;
 
 }

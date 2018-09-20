@@ -4,10 +4,8 @@ import cn.corner.web.core.properties.LoginType;
 import cn.corner.web.core.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +32,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         log.info("登录成功");
         if(LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             httpServletResponse.setContentType("application/json;charset=utf-8");
-            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authentication));
+            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authentication.getDetails()));
         }else{
             super.onAuthenticationSuccess(httpServletRequest,httpServletResponse,authentication);
         }

@@ -2,22 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户登录</title>
+    <title>短信登录</title>
 </head>
 <body>
-    <form action="/authentication/form" method="post">
+    <form action="/authentication/mobile" method="post">
         <table>
             <tr>
-                <td>用户名：</td>
-                <td><input type="text" name="username"></td>
+                <td>手机号：</td>
+                <td><input type="text" name="username" value="1234321"></td>
             </tr>
             <tr>
-                <td>密码：</td>
-                <td><input type="password" name="password"></td>
-            </tr>
-            <tr>
-                <td>验证码：</td>
-                <td><input type="text" name="code"><img src="/code/image?width=200"></td>
+                <td>短信验证码：</td>
+                <td><input type="password" name="password"><a href="/code/sms?mobile=1234321">发送验证码</a></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="checkbox" name="remember-me">记住我</input></td>
