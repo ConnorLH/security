@@ -1,4 +1,4 @@
-package cn.corner.web.core.validate.code;
+package cn.corner.web.core.validate.code.dto;
 
 import lombok.Data;
 

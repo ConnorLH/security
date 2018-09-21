@@ -1,16 +1,16 @@
 package cn.corner.web.core.validate.code;
 
 import cn.corner.web.core.properties.SecurityProperties;
+import cn.corner.web.core.properties.ValidateCodeProperties;
+import cn.corner.web.core.validate.code.dto.ValidateCodeType;
+import cn.corner.web.core.validate.code.dto.ValidationCodeHolderType;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -18,19 +18,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
+@Slf4j
 @Component
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-    private SessionStrategy strategy = new HttpSessionSessionStrategy();
+    @Autowired
+    private Map<String,ValidateCodeConfirmHolder> confirmHolderMap = new HashMap<>();
 
-    private Set<String> urls = new HashSet<>();
+    private List<ValidationCodeHolderType> urlValidateHolderList = new ArrayList<>();
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -39,55 +41,66 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        boolean action =false;
-
-        for (String url : urls) {
-            if(antPathMatcher.match(url,httpServletRequest.getRequestURI())){
-                action = true;
-                break;
-            }
-        }
-        if (action) {
+        // 检测是否需要验证码
+        ValidateCodeType validateCodeType = getValidateCodeType(httpServletRequest);
+        if(validateCodeType!=null){
             try {
-                validateCode(httpServletRequest);
-            } catch (ValidateCodeFailuerException e) {
+                ValidateCodeConfirmHolder confirmHolder = confirmHolderMap.get(StringUtils.lowerCase(validateCodeType.name()) + "ValidateCodeConfirmHolder");
+                confirmHolder.confirm(httpServletRequest);
+            }catch (ValidateCodeFailuerException e){
                 authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
                 return;
             }
+
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-
-    private void validateCode(HttpServletRequest request) throws ServletRequestBindingException {
-        ImageCode imageCode = (ImageCode) strategy.getAttribute(new ServletWebRequest(request), ImageValidateCodeProcessor.SESSION_KEY_IMAGE);
-        String code = ServletRequestUtils.getStringParameter(request, "code");
-        if (StringUtils.isBlank(code)) {
-            throw new ValidateCodeFailuerException("验证码不能为空");
+    private ValidateCodeType getValidateCodeType(HttpServletRequest httpServletRequest) {
+        String requestUrl = httpServletRequest.getRequestURI();
+        for(ValidationCodeHolderType holderType:urlValidateHolderList){
+            List<String> blockUrls =holderType.getBlockUrls();
+            for (String url : blockUrls) {
+                if (antPathMatcher.match(url, requestUrl)) {
+                    return holderType.getValidateCodeType();
+                }
+            }
         }
-        if (imageCode == null) {
-            throw new ValidateCodeFailuerException("验证码已过期");
-        }
-        if (imageCode.isExpired()) {
-            strategy.removeAttribute(new ServletWebRequest(request), ImageValidateCodeProcessor.SESSION_KEY_IMAGE);
-            throw new ValidateCodeFailuerException("验证码已过期");
-        }
-        if (!StringUtils.equals(imageCode.getCode(), code)) {
-            throw new ValidateCodeFailuerException("验证码不匹配");
-        }
-        // 通过清空验证码
-        strategy.removeAttribute(new ServletWebRequest(request), ImageValidateCodeProcessor.SESSION_KEY_IMAGE);
+        return null;
     }
 
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        String configsUrl = securityProperties.getCode().getImageCode().getUrl();
-        if(StringUtils.isNotBlank(configsUrl)){
-            String[] configs = StringUtils.split(configsUrl, ',');
-            urls.addAll(Arrays.asList(configs));
+        final List<Field> codeList = new ArrayList<>();
+        ReflectionUtils.doWithFields(ValidateCodeProperties.class, field -> codeList.add(field));
+        for (Field field : codeList) {
+            try {
+                ReflectionUtils.makeAccessible(field);
+                // 获取properties类对象
+                Object codeProperties = field.get(securityProperties.getCode());
+
+                // 获取该properties的url
+                Method getUrlMethod = ReflectionUtils.findMethod(codeProperties.getClass(), "getUrl");
+                String urlConfig = (String) getUrlMethod.invoke(codeProperties);
+                List<String> urlList = null;
+                if(urlConfig!=null){
+                    String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlConfig==null?"":urlConfig, ",");
+                    urlList = Arrays.asList(urls);
+                }else{
+                    urlList = new ArrayList<>();
+                }
+
+                // 根据properties类名获取对应的ValidateCodeType
+                String typeString = StringUtils.substringBefore(field.getType().getSimpleName(), "CodeProperties");
+                ValidateCodeType validateCodeType = ValidateCodeType.valueOf(StringUtils.upperCase(typeString));
+
+                urlValidateHolderList.add(new ValidationCodeHolderType(validateCodeType, urlList));
+            } catch (IllegalAccessException e) {
+                log.error("属性不可访问", e);
+            } catch (InvocationTargetException e) {
+                log.error("动态获取url异常", e);
+            }
         }
-        // 登录请求限制默认必做验证码校验
-        urls.add("/authentication/form");
     }
 }

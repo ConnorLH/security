@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
-    private String loginPage = "/mysmssign.html";
+    private String loginPage = "/mysign.html";
 
     private LoginType loginType = LoginType.JSON;
 

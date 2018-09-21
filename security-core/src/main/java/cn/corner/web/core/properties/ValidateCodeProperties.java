@@ -3,7 +3,7 @@ package cn.corner.web.core.properties;
 import lombok.Data;
 
 @Data
-public class ValicateCodeProperties {
+public class ValidateCodeProperties {
 
     private ImageCodeProperties imageCode = new ImageCodeProperties();
 

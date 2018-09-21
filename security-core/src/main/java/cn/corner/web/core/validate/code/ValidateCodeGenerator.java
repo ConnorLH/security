@@ -1,5 +1,7 @@
 package cn.corner.web.core.validate.code;
 
+import cn.corner.web.core.validate.code.dto.ValidateCode;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**

@@ -1,4 +1,4 @@
-package cn.corner.web.core.validate.code;
+package cn.corner.web.core.validate.code.sms;
 
 public class DefaultSMSSender implements SMSCodeSender {
     @Override

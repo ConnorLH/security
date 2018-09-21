@@ -1,6 +1,7 @@
-package cn.corner.web.core.validate.code;
+package cn.corner.web.core.validate.code.image;
 
 import cn.corner.web.core.properties.SecurityProperties;
+import cn.corner.web.core.validate.code.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 

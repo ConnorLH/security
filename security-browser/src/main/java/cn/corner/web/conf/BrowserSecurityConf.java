@@ -1,6 +1,8 @@
 package cn.corner.web.conf;
 
 import cn.corner.web.browser.MyUserDetailsService;
+import cn.corner.web.core.conf.SMSCodeAuthenticationSecurityConfig;
+import cn.corner.web.core.conf.LoginConfig;
 import cn.corner.web.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,10 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -20,7 +18,7 @@ import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 @Configuration
-public class MySecurityConf extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConf extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyUserDetailsService userDetailsService;
@@ -28,29 +26,24 @@ public class MySecurityConf extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     @Qualifier("validateCodeFilter")
-    private Filter ValidateCodeFilter;
+    private Filter validateCodeFilter;
 
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private SMSCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private LoginConfig loginConfig;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(ValidateCodeFilter,UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    // 需要登录时让其重定向到这个url
-                    .loginPage("/authentication/require")
-                    .loginProcessingUrl("/authentication/form")
-                    .successHandler(authenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
-                    .and()
+        http
+            .addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
@@ -61,12 +54,8 @@ public class MySecurityConf extends WebSecurityConfigurerAdapter {
                     .anyRequest()
                     .authenticated()
                     .and()
-                .csrf().disable();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and().apply(loginConfig);
     }
 
     @Bean
@@ -77,21 +66,4 @@ public class MySecurityConf extends WebSecurityConfigurerAdapter {
         return repository;
     }
 
-   /* @Bean
-    public ObjectMapper ObjectMapper(){
-        ObjectMapper objectMapper=new ObjectMapper();
-        return objectMapper;
-    }*/
-   /* @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider
-                = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        return authProvider;
-    }*/
 }
