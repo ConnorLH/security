@@ -7,6 +7,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * 短信验证码登录provider
+ * 这里其实没有校验逻辑，因为验证码提前在ValidateCodeFilter做了校验，到这里只需要根据手机号获取用户信息放入Authentication即可
+ */
 public class SMSCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;

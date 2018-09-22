@@ -3,11 +3,14 @@ package cn.corner.web.conf;
 import cn.corner.web.browser.MyUserDetailsService;
 import cn.corner.web.core.conf.SMSCodeAuthenticationSecurityConfig;
 import cn.corner.web.core.conf.LoginConfig;
+import cn.corner.web.core.conf.SecurityConstant;
+import cn.corner.web.core.conf.ValidateCodeFilterConfig;
 import cn.corner.web.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -17,6 +20,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import javax.servlet.Filter;
 import javax.sql.DataSource;
 
+/**
+ * 浏览器security的总配置，其中应用了核心配置（登录、验证码过滤器、手机验证码登录拦截）
+ */
 @Configuration
 public class BrowserSecurityConf extends WebSecurityConfigurerAdapter {
 
@@ -26,11 +32,6 @@ public class BrowserSecurityConf extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
-
-    @Autowired
-    @Qualifier("validateCodeFilter")
-    private Filter validateCodeFilter;
-
     @Autowired
     private DataSource dataSource;
 
@@ -38,24 +39,31 @@ public class BrowserSecurityConf extends WebSecurityConfigurerAdapter {
     private SMSCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
+    private ValidateCodeFilterConfig validateCodeFilterConfig;
+
+    @Autowired
+    @Qualifier("loginCoreConfig")
     private LoginConfig loginConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        loginConfig.applyLoginConfigure(http);
         http
-            .addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
+            .apply(validateCodeFilterConfig)
+            .and()
+            .apply(smsCodeAuthenticationSecurityConfig)
+            .and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                     .and()
                 .authorizeRequests()
-                    .antMatchers("/error","/code/*","/authentication/require",securityProperties.getBrowser().getLoginPage()).permitAll()
+                    .antMatchers(SecurityConstant.VALIDATE_CODE_URL,SecurityConstant.LOGIN_PAGE_URL,securityProperties.getBrowser().getLoginPage()).permitAll()
                     .anyRequest()
                     .authenticated()
                     .and()
-                .apply(smsCodeAuthenticationSecurityConfig)
-                .and().apply(loginConfig);
+                .csrf().disable();
     }
 
     @Bean

@@ -15,13 +15,13 @@ public class SMSValidateCodeConfirmHolder extends AbstractValidateCodeConfirmHol
 
     @Override
     public void confirm(HttpServletRequest request) {
-        String mobile = "";
+        String smsCode = "";
         try {
-           mobile = ServletRequestUtils.getStringParameter(request, "mobile");
+            smsCode = ServletRequestUtils.getStringParameter(request, "smsCode");
         } catch (ServletRequestBindingException e) {
             log.error("无效的验证码参数");
             throw new ValidateCodeFailuerException("无效的验证码参数");
         }
-        defaultValidateCode(request,mobile,SMSValidateCodeProcessor.SESSION_KEY_SMS);
+        defaultValidateCode(request,smsCode,SMSValidateCodeProcessor.SESSION_KEY_SMS);
     }
 }

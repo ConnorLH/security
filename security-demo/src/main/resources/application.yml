@@ -3,21 +3,23 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xx?useUnicode=yes&characterEncode=UTF-8&useSSL=true
     username: root
-    password: corner666
+    password: root
   session:
     store-type: none
 # 配置返回时json中将Date转为时间戳
   jackson:
     serialization:
       write-dates-as-timestamps: true
-#corner:
-#  security:
+corner:
+  security:
 #    browser:
 #      loginPage: /demo-sign.html
 #      loginType: REDIRECT
 #      loginType: JSON
-#    code:
-#      imageCode:
+    code:
+      imageCode:
 #        length: 5
 #        width: 100
-#        url: /user,/user/*
+        url: /authentication/form,/user,/user/*
+      smsCode:
+        url: /authentication/mobile

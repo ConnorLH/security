@@ -27,6 +27,7 @@ import java.util.*;
 @Component
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
+    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
