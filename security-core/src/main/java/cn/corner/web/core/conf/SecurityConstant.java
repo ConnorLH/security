@@ -19,4 +19,6 @@ public interface SecurityConstant {
      * 验证码请求url
      */
     public static final String VALIDATE_CODE_URL="/code/*";
+
+    public  static final String SOCIAL_LOGIN_PAGE="/login/*";
 }
