@@ -1,2 +1,5 @@
 .idea/
 */target/
+*.rebel.bak*
+*rebel.xml
+*rebel.xml.*

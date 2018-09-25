@@ -1,18 +1,20 @@
-package cn.corner.web.browser;
+package cn.corner.web.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService,SocialUserDetailsService {
 
     // 应该在用户注册时使用这个配好的bean对其密码进行加密然后存储
     @Autowired
@@ -20,10 +22,20 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        log.info("登录用户名:"+s);
+        log.info("表单登录用户名:"+s);
+        return buildUserDetails(s);
+    }
+
+    @Override
+    public SocialUserDetails loadUserByUserId(String s) throws UsernameNotFoundException {
+        log.info("社交登录用户名:"+s);
+        return buildUserDetails(s);
+    }
+
+    private SocialUserDetails buildUserDetails(String s) {
 //        return new User(s,"123456",AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
         log.info("数据库密码:"+encoder.encode("123456"));
-        return new User(s,encoder.encode("123456"),true,true,true,true
+        return new SocialUser(s,encoder.encode("123456"),true,true,true,true
                 ,AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 }

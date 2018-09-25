@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * 验证码相关的配置
  */
 @Configuration
-public class ValidateCodeBeanConf {
+public class ValidateCodeBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "imageCodeGenerator")

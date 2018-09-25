@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xx?useUnicode=yes&characterEncode=UTF-8&useSSL=true
     username: root
-    password: root
+    password: corner666
   session:
     store-type: none
 # 配置返回时json中将Date转为时间戳
@@ -23,3 +23,7 @@ corner:
         url: /authentication/form,/user,/user/*
       smsCode:
         url: /authentication/mobile
+    social:
+      qq:
+        app-id: 101431061
+        app-secret: 0154c848f45fc705412462d4f99a592c
