@@ -38,6 +38,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Bean
     public SpringSocialConfigurer mySocialConfigurer(){
-        return new MySpringSocialConfigurer(securityProperties.getSocial().getFilterProcessUrl());
+        return new SpringSocialConfigurer();
     }
 }

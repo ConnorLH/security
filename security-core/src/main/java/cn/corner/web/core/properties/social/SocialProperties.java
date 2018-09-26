@@ -1,12 +1,11 @@
 package cn.corner.web.core.properties.social;
 
-import cn.corner.web.core.properties.social.QQProperties;
 import lombok.Data;
 
 @Data
 public class SocialProperties {
 
-    private String filterProcessUrl = "/auth";
+    private String filterProcessesUrl = "/auth";
 
     private QQProperties qq = new QQProperties();
 }

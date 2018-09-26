@@ -1,4 +1,3 @@
-
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -25,8 +24,8 @@ corner:
       smsCode:
         url: /authentication/mobile
     social:
-      filterProcessUrl: /auth/callback
+      filterProcessesUrl: /login
       qq:
-        app-id: 101431061
-        app-secret: 0154c848f45fc705412462d4f99a592c
+        app-id: 101386962
+        app-secret: 2a0f820407df400b84a854d054be8b6a
         providerId: qq
