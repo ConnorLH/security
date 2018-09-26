@@ -3,20 +3,38 @@ package cn.corner.web.controller;
 import cn.corner.web.dto.User;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
+
+    @PostMapping("/regist")
+    public void regist(User user, HttpServletRequest request){
+        // 不管是注册用户还是绑订用户，都会从页面拿到一个用户唯一标识
+        String userId = user.getUsername();
+        // 这里可以进行业务上的注册或者绑订逻辑，完成之后执行下面,将业务用户id与social用户的几个id（openid等）联系在一起
+        // 即，一起放入spring social的userconnection表中。便于之后用户再次采用第三方登录，可以从这个表中拿到业务的用户id，从而
+        // 拿到业务的用户数据放入UserDetails中也即构建Authentication
+        providerSignInUtils.doPostSignUp(userId,new ServletWebRequest(request));
+    }
 
     @GetMapping("/me")
     public Object getSecurityContext(Authentication authentication){

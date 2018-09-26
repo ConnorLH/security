@@ -63,7 +63,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .userDetailsService(userDetailsService)
                     .and()
                 .authorizeRequests()
-                    .antMatchers(SecurityConstant.VALIDATE_CODE_URL,SecurityConstant.LOGIN_PAGE_URL,securityProperties.getBrowser().getLoginPage()).permitAll()
+                    .antMatchers(
+                            SecurityConstant.VALIDATE_CODE_URL
+                            ,SecurityConstant.LOGIN_PAGE_URL
+                            ,securityProperties.getBrowser().getLoginPage()
+                            ,securityProperties.getBrowser().getSignUpUrl()
+                            ,"/user/regist")
+                            .permitAll()
                     .anyRequest()
                     .authenticated()
                     .and()

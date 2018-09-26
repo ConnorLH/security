@@ -14,7 +14,8 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQAPI> {
     private static final String ACCESSTOKEN="https://graph.qq.com/oauth2.0/token";
 
     public QQServiceProvider(String appId,String appSecret) {
-        super(new OAuth2Template(appId,appSecret,URL_AUTHORIZE,ACCESSTOKEN));
+        super(new QQOauth2Template(appId,appSecret,URL_AUTHORIZE,ACCESSTOKEN));
+        this.appId = appId;
     }
 
     @Override

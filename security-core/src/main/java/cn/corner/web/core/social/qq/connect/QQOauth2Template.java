@@ -14,8 +14,10 @@ import java.util.List;
 
 @Slf4j
 public class QQOauth2Template extends OAuth2Template {
+
     public QQOauth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
         super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
+        setUseParametersForClientAuthentication(true);
     }
 
     @Override
