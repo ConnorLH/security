@@ -1,5 +1,6 @@
 package cn.corner.web.core.properties;
 
+import cn.corner.web.core.properties.social.SocialProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
