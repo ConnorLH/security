@@ -3,9 +3,7 @@
  */
 package cn.corner.web.core.social.weixin.connect;
 
-import java.nio.charset.Charset;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,7 +15,8 @@ import org.springframework.social.oauth2.OAuth2Template;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  *
@@ -26,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author zhailiang
  *
  */
-public class WeixinOAuth2Template extends OAuth2Template {
+public class WeixinOauth2Template extends OAuth2Template {
 
 	private String clientId;
 
@@ -38,7 +37,7 @@ public class WeixinOAuth2Template extends OAuth2Template {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public WeixinOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
+	public WeixinOauth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
 		super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
 		setUseParametersForClientAuthentication(true);
 		this.clientId = clientId;

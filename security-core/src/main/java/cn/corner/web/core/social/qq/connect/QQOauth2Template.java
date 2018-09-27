@@ -24,7 +24,7 @@ public class QQOauth2Template extends OAuth2Template {
     protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
         String responseStr = getRestTemplate().postForObject(accessTokenUrl, parameters, String.class);
         log.info("获取accessToken的响应:"+responseStr);
-        String[] strings = StringUtils.splitByWholeSeparatorPreserveAllTokens(accessTokenUrl, "&");
+        String[] strings = StringUtils.splitByWholeSeparatorPreserveAllTokens(responseStr, "&");
         String accessToken = StringUtils.substringAfter(strings[0], "=");
         Long expiresIn = Long.valueOf(StringUtils.substringAfter(strings[1], "="));
         String refreshToken = StringUtils.substringAfter(strings[2], "=");
@@ -38,4 +38,6 @@ public class QQOauth2Template extends OAuth2Template {
         messageConverters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
         return restTemplate;
     }
+
+
 }

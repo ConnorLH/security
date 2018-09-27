@@ -26,10 +26,10 @@ corner:
       smsCode:
         url: /authentication/mobile
     social:
-      filterProcessesUrl: /auth/callback
+      filterProcessesUrl: /login/callback
       qq:
-        app-id: 101386962
-        app-secret: 2a0f820407df400b84a854d054be8b6a
+        app-id: 101503943
+        app-secret: ea51ad9f67d1244537f4f2ed9db9242c
         providerId: qq
       weixin:
         app-id: wxd99431bbff8305a0

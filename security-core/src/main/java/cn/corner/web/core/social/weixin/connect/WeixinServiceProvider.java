@@ -30,7 +30,7 @@ public class WeixinServiceProvider extends AbstractOAuth2ServiceProvider<WeixinA
 	 * @param appSecret
 	 */
 	public WeixinServiceProvider(String appId, String appSecret) {
-		super(new WeixinOAuth2Template(appId, appSecret,URL_AUTHORIZE,URL_ACCESS_TOKEN));
+		super(new WeixinOauth2Template(appId, appSecret,URL_AUTHORIZE,URL_ACCESS_TOKEN));
 	}
 
 	@Override
