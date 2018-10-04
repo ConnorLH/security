@@ -14,4 +14,5 @@ public class SecurityProperties {
 
     private SocialProperties social = new SocialProperties();
 
+
 }

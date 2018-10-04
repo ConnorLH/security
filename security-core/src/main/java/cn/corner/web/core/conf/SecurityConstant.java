@@ -21,4 +21,6 @@ public interface SecurityConstant {
     public static final String VALIDATE_CODE_URL="/code/*";
 
     public  static final String SOCIAL_LOGIN_PAGE="/login/*";
+
+    public static final String DEFAULT_SESSION_INVALID_URL = "/my-invalid.html";
 }

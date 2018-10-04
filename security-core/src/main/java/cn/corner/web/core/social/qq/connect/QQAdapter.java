@@ -6,6 +6,10 @@ import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 
+/**
+ * 将第三方的用户信息格式化为Spring-Social的用户信息格式
+ * 即QQUserInfo ——> Connection
+ */
 public class QQAdapter implements ApiAdapter<QQAPI> {
     @Override
     public boolean test(QQAPI qqapi) {

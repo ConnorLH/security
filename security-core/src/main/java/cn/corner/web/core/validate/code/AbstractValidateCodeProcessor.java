@@ -37,7 +37,7 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
     protected abstract void send(T validateCode, ServletWebRequest request) throws ServletRequestBindingException, IOException;
 
     /**
-     * 默认保存到session中，暂时先这么实现
+     * 默认保存到session中(redis)，暂时先这么实现
      * 以后重构需要构建repository接口和实现类，这里调用它的保存方法
      *
      * @param validateCode

@@ -1,16 +1,19 @@
-
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xx?useUnicode=yes&characterEncode=UTF-8&useSSL=true
+    url: jdbc:mysql://localhost:3306/paascloud_uac?useUnicode=yes&characterEncode=UTF-8&useSSL=true
     username: root
     password: root
   session:
-    store-type: none
+    store-type: REDIS
 # 配置返回时json中将Date转为时间戳
   jackson:
     serialization:
       write-dates-as-timestamps: true
+  redis:
+    host: 192.168.25.131
+    password: corner666
+    port: 6379
 corner:
   security:
     browser:
@@ -22,11 +25,12 @@ corner:
       imageCode:
 #        length: 5
 #        width: 100
-        url: /authentication/form,/user,/user/*
+        url: /authentication/form
       smsCode:
         url: /authentication/mobile
     social:
-      filterProcessesUrl: /login/callback
+#      filterProcessesUrl: /login/callback
+      filterProcessesUrl: /qqLogin
       qq:
         app-id: 101503943
         app-secret: ea51ad9f67d1244537f4f2ed9db9242c
@@ -36,4 +40,8 @@ corner:
         app-secret: 60f78681d063590a469f1b297feff3c4
         providerId: weixin
 server:
-  port: 80
+  port: 8080
+  servlet:
+    session:
+      # 必须大于1分钟
+      timeout: 1200

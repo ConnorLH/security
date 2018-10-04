@@ -6,9 +6,11 @@ package cn.corner.web.core.social.weixin.conf;
 import cn.corner.web.core.properties.SecurityProperties;
 import cn.corner.web.core.properties.social.QQProperties;
 import cn.corner.web.core.properties.social.WeixinProperties;
+import cn.corner.web.core.social.MyConnectionView;
 import cn.corner.web.core.social.qq.connect.QQConnectionFactory;
 import cn.corner.web.core.social.weixin.connect.WeixinConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -47,5 +49,15 @@ public class WeixinAutoConfiguration extends SocialConfigurerAdapter {
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         return null;
+    }
+
+    /**
+     * 配置默认绑订成功的Controller
+     * @return
+     */
+    @Bean({"connect/weixinConnected","connect/weixinConnect"})
+    @ConditionalOnMissingBean(name = "weixinConnectedView")
+    public View weixinConnectedView(){
+        return new MyConnectionView();
     }
 }

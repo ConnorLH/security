@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.image.BufferedImage;
+import java.beans.Transient;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +18,6 @@ public class ImageCode extends ValidateCode {
         this.expireTime = LocalDateTime.now().plusSeconds(expireTime);
     }
 
-    private BufferedImage image;
+    private transient BufferedImage image;
 
 }

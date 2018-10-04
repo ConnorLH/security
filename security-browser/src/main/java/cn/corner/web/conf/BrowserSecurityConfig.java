@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -25,6 +27,7 @@ import javax.sql.DataSource;
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    @Qualifier("myUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -43,9 +46,17 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("loginCoreConfig")
     private LoginConfig loginConfig;
 
-    // 注册Social登录需要的过滤器
+    /**
+     *  注册Social登录需要的过滤器
+     */
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
+
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -62,13 +73,20 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                     .and()
+                .sessionManagement()
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                    .and()
+                    .and()
                 .authorizeRequests()
                     .antMatchers(
                             SecurityConstant.VALIDATE_CODE_URL
                             ,SecurityConstant.LOGIN_PAGE_URL
                             ,securityProperties.getBrowser().getLoginPage()
                             ,securityProperties.getBrowser().getSignUpUrl()
-                            ,"/user/regist")
+                            ,"/session/invalid","/user/regist")
                             .permitAll()
                     .anyRequest()
                     .authenticated()

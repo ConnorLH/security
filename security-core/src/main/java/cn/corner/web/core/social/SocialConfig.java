@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.EnableSocial;
+import org.springframework.social.config.annotation.SocialConfiguration;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -21,6 +23,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
+
+    @Autowired
+    private  SocialConfiguration socialConfiguration;
 
     @Autowired
     private DataSource dataSource;
@@ -55,5 +60,17 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
         return new ProviderSignInUtils(connectionFactoryLocator,getUsersConnectionRepository(connectionFactoryLocator));
+    }
+
+    /**
+     * 注册Spring-social自带的ConnectController
+     * @return
+     */
+    @Bean
+    public ConnectController connectController() {
+        ConnectController controller = new ConnectController(
+                socialConfiguration.connectionFactoryLocator(),
+                socialConfiguration.connectionRepository(socialConfiguration.usersConnectionRepository(socialConfiguration.connectionFactoryLocator())));
+        return controller;
     }
 }

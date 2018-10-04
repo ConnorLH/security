@@ -18,4 +18,5 @@ public class MySpringSocialConfigurer extends SpringSocialConfigurer {
         filter.setFilterProcessesUrl(filterProcessesUrl);
         return (T)filter;
     }
+
 }
