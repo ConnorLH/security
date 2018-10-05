@@ -1,5 +1,6 @@
 package cn.corner.web.core.authentication.mobile;
 
+import cn.corner.web.core.conf.SecurityConstant;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -11,14 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SMSCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    public static final String CORNER_FORM_MOBILE_KEY = "mobile";
-    private String mobileParameter = CORNER_FORM_MOBILE_KEY;
+
+    private String mobileParameter = SecurityConstant.CORNER_FORM_MOBILE_KEY;
+
     private boolean postOnly = true;
 
     public SMSCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if (this.postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());

@@ -9,6 +9,8 @@ public class BrowserProperties {
 
     private String loginPage = "/mysign.html";
 
+    private String signOutUrl = "";
+
     private LoginType loginType = LoginType.JSON;
 
     private int rememberMeSeconds = 3600;

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * 登录、密码核心配置
@@ -22,6 +23,9 @@ public class LoginConfig {
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     public void applyLoginConfigure(HttpSecurity http) throws Exception {
         http
             .formLogin()
@@ -29,7 +33,14 @@ public class LoginConfig {
                 .loginPage(SecurityConstant.LOGIN_PAGE_URL)
                 .loginProcessingUrl(SecurityConstant.LOGIN_PROCESS_URL)
                 .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler);
+                .failureHandler(authenticationFailureHandler)
+                .and()
+            .logout()
+                .logoutUrl("/signOut")
+                // success和url是互斥的，只能配一个
+                //.logoutSuccessUrl("/mylogout.html")
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .deleteCookies("JSESSIONID");
     }
 
     @Bean

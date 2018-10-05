@@ -21,6 +21,7 @@ corner:
 #      loginType: REDIRECT
 #      loginType: JSON
       signUpUrl: /demo-signUp.html
+      signOutUrl: /demo-logout.html
     code:
       imageCode:
 #        length: 5

@@ -83,10 +83,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(
                             SecurityConstant.VALIDATE_CODE_URL
+                            ,SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                             ,SecurityConstant.LOGIN_PAGE_URL
                             ,securityProperties.getBrowser().getLoginPage()
                             ,securityProperties.getBrowser().getSignUpUrl()
-                            ,"/session/invalid","/user/regist")
+                            ,securityProperties.getBrowser().getSession().getSessionInvalidUrl()
+                            ,securityProperties.getBrowser().getSignOutUrl()
+                            ,"/user/regist")
                             .permitAll()
                     .anyRequest()
                     .authenticated()

@@ -1,5 +1,6 @@
 package cn.corner.web.core.validate.code.sms;
 
+import cn.corner.web.core.conf.SecurityConstant;
 import cn.corner.web.core.validate.code.AbstractValidateCodeConfirmHolder;
 import cn.corner.web.core.validate.code.ValidateCodeFailuerException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class SMSValidateCodeConfirmHolder extends AbstractValidateCodeConfirmHol
     public void confirm(HttpServletRequest request) {
         String smsCode = "";
         try {
-            smsCode = ServletRequestUtils.getStringParameter(request, "smsCode");
+            smsCode = ServletRequestUtils.getStringParameter(request, SecurityConstant.DEFAULT_PARAMETER_NAME_CODE_SMS);
         } catch (ServletRequestBindingException e) {
             log.error("无效的验证码参数");
             throw new ValidateCodeFailuerException("无效的验证码参数");
