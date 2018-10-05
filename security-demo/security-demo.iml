@@ -49,7 +49,7 @@
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
-    <orderEntry type="module" module-name="security-browser" />
+    <orderEntry type="module" module-name="security-app" />
     <orderEntry type="module" module-name="security-core" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-oauth2:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-security:2.0.0.RELEASE" level="project" />
@@ -87,6 +87,13 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.59" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.59" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.0.9.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:2.0.9.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.0.9.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.lettuce:lettuce-core:5.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.2" level="project" />
@@ -100,6 +107,8 @@
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.7.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-data-redis:2.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-core:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.22" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.20" level="project" />
@@ -155,15 +164,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.jknack:handlebars:4.0.6" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.5.1-1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-data-redis:2.0.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.0.9.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:2.0.9.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.0.9.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:5.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-core:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-test:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />

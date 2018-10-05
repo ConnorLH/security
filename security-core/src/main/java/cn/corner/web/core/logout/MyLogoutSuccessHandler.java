@@ -1,7 +1,6 @@
-package cn.corner.web.logout;
+package cn.corner.web.core.logout;
 
-import cn.corner.web.core.properties.SecurityProperties;
-import cn.corner.web.support.SimpleSupport;
+import cn.corner.web.core.support.SimpleSupport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
