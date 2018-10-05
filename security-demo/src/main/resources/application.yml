@@ -46,3 +46,9 @@ server:
     session:
       # 必须大于1分钟
       timeout: 1200
+security:
+  oauth2:
+    client:
+      client-id: corner
+      client-secret: aaa
+      registered-redirect-uri: "http://example.com"
