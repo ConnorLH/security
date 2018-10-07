@@ -11,11 +11,11 @@
     <artifactId>security-app</artifactId>
     <packaging>jar</packaging>
     <dependencies>
-    <dependency>
-        <groupId>cn.corner</groupId>
-        <artifactId>security-core</artifactId>
-        <version>${corner.security.version}</version>
-    </dependency>
-</dependencies>
-    
+        <dependency>
+            <groupId>cn.corner</groupId>
+            <artifactId>security-core</artifactId>
+            <version>${corner.security.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

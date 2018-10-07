@@ -3,6 +3,7 @@ package cn.corner.web.core.validate.code.image;
 import cn.corner.web.core.conf.SecurityConstant;
 import cn.corner.web.core.validate.code.AbstractValidateCodeConfirmHolder;
 import cn.corner.web.core.validate.code.ValidateCodeFailuerException;
+import cn.corner.web.core.validate.code.dto.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -23,6 +24,6 @@ public class ImageValidateCodeConfirmHolder extends AbstractValidateCodeConfirmH
             log.error("无效的验证码参数");
             throw new ValidateCodeFailuerException("无效的验证码参数");
         }
-        defaultValidateCode(request,code,ImageValidateCodeProcessor.SESSION_KEY_IMAGE);
+        defaultValidateCode(request,code, ValidateCodeType.IMAGE);
     }
 }

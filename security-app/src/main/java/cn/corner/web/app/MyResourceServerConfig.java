@@ -1,7 +1,9 @@
 package cn.corner.web.app;
 
+import cn.corner.web.app.conf.OpenIdAuthenticationSecurityConfig;
 import cn.corner.web.core.conf.SMSCodeAuthenticationSecurityConfig;
 import cn.corner.web.core.conf.SecurityConstant;
+import cn.corner.web.core.conf.ValidateCodeFilterConfig;
 import cn.corner.web.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +38,13 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
     private SpringSocialConfigurer springSocialConfigurer;
 
     @Autowired
+    private ValidateCodeFilterConfig validateCodeFilterConfig;
+
+    @Autowired
     private SMSCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -48,12 +56,14 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()
-           /* .apply(validateCodeFilterConfig)
-            .and()*/
+            .apply(validateCodeFilterConfig)
+                .and()
             .apply(smsCodeAuthenticationSecurityConfig)
-            .and()
+                .and()
             .apply(springSocialConfigurer)
-            .and()
+                .and()
+            .apply(openIdAuthenticationSecurityConfig)
+                .and()
             .authorizeRequests()
                 .antMatchers(
                     SecurityConstant.VALIDATE_CODE_URL
@@ -63,11 +73,12 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                     ,securityProperties.getBrowser().getSignUpUrl()
                     ,securityProperties.getBrowser().getSession().getSessionInvalidUrl()
                     ,securityProperties.getBrowser().getSignOutUrl()
-                    ,"/user/regist")
+                    ,"/social/signUp","/user/regist")
                      .permitAll()
                 .anyRequest()
                     .authenticated()
                 .and()
             .csrf().disable();
     }
+
 }

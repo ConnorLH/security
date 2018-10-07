@@ -9,8 +9,9 @@ import java.beans.Transient;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 public class ImageCode extends ValidateCode {
+
+    public ImageCode(){}
 
     public ImageCode(BufferedImage image,String code,int expireTime){
         this.image = image;

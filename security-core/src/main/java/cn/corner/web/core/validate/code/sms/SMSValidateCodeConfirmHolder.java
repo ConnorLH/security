@@ -3,6 +3,7 @@ package cn.corner.web.core.validate.code.sms;
 import cn.corner.web.core.conf.SecurityConstant;
 import cn.corner.web.core.validate.code.AbstractValidateCodeConfirmHolder;
 import cn.corner.web.core.validate.code.ValidateCodeFailuerException;
+import cn.corner.web.core.validate.code.dto.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -23,6 +24,6 @@ public class SMSValidateCodeConfirmHolder extends AbstractValidateCodeConfirmHol
             log.error("无效的验证码参数");
             throw new ValidateCodeFailuerException("无效的验证码参数");
         }
-        defaultValidateCode(request,smsCode,SMSValidateCodeProcessor.SESSION_KEY_SMS);
+        defaultValidateCode(request,smsCode, ValidateCodeType.SMS);
     }
 }

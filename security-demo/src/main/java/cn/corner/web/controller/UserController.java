@@ -1,5 +1,6 @@
 package cn.corner.web.controller;
 
+import cn.corner.web.app.social.AppSignUpUtils;
 import cn.corner.web.dto.User;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    @Autowired
+    private AppSignUpUtils appSignUpUtils;
+
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request){
         // 不管是注册用户还是绑订用户，都会从页面拿到一个用户唯一标识
@@ -31,7 +35,7 @@ public class UserController {
         // 这里可以进行业务上的注册或者绑订逻辑，完成之后执行下面,将业务用户id与social用户的几个id（openid等）联系在一起
         // 即，一起放入spring social的userconnection表中。便于之后用户再次采用第三方登录，可以从这个表中拿到业务的用户id，从而
         // 拿到业务的用户数据放入UserDetails中也即构建Authentication
-        providerSignInUtils.doPostSignUp(userId,new ServletWebRequest(request));
+        appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
     }
 
     @GetMapping("/me")

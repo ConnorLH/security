@@ -1,6 +1,7 @@
 package cn.corner.web.core.validate.code;
 
 import cn.corner.web.core.validate.code.dto.ValidateCode;
+import cn.corner.web.core.validate.code.dto.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
     @Autowired
     private Map<String, ValidateCodeGenerator> generator;
 
-    private SessionStrategy strategy = new HttpSessionSessionStrategy();
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
 
     public static final String SESSION_KEY_DEFAULT = "SESSION_KEY_DEFAULT_CODE";
 
@@ -37,14 +39,18 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
     protected abstract void send(T validateCode, ServletWebRequest request) throws ServletRequestBindingException, IOException;
 
     /**
-     * 默认保存到session中(redis)，暂时先这么实现
-     * 以后重构需要构建repository接口和实现类，这里调用它的保存方法
+     * 保存校验码
      *
      * @param validateCode
      * @param request
      */
     protected void save(T validateCode, ServletWebRequest request) {
-        getStrategy().setAttribute(request, SESSION_KEY_DEFAULT, validateCode);
+        validateCodeRepository.save(request,validateCode,getValidateCodeType(request));
+    }
+
+    private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
+        String processor = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
+        return ValidateCodeType.valueOf(processor.toUpperCase());
     }
 
     /**
@@ -67,7 +73,4 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
         throw new ValidateCodeFailuerException("请求验证码路径错误");
     }
 
-    public SessionStrategy getStrategy() {
-        return strategy;
-    }
 }

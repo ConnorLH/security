@@ -10,6 +10,7 @@ import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfiguration;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
@@ -36,6 +37,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor postProcessor;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
@@ -54,6 +58,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public SpringSocialConfigurer mySocialConfigurer(){
         MySpringSocialConfigurer configurer = new MySpringSocialConfigurer(securityProperties.getSocial().getFilterProcessesUrl());
         configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+        configurer.setPostProcessor(postProcessor);
         return configurer;
     }
 
@@ -67,10 +72,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
      * @return
      */
     @Bean
-    public ConnectController connectController() {
-        ConnectController controller = new ConnectController(
-                socialConfiguration.connectionFactoryLocator(),
-                socialConfiguration.connectionRepository(socialConfiguration.usersConnectionRepository(socialConfiguration.connectionFactoryLocator())));
-        return controller;
+    public ConnectController connectController(
+            ConnectionFactoryLocator connectionFactoryLocator,
+            ConnectionRepository connectionRepository) {
+        return new ConnectController(connectionFactoryLocator, connectionRepository);
     }
 }

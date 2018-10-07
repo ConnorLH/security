@@ -40,15 +40,14 @@ corner:
         app-id: wxd99431bbff8305a0
         app-secret: 60f78681d063590a469f1b297feff3c4
         providerId: weixin
+    oauth2:
+      clients[0]:
+        clientId: corner
+        clientSecret: aaa
+        accessTokenValiditySeconds: 3600
 server:
   port: 8080
   servlet:
     session:
       # 必须大于1分钟
       timeout: 1200
-security:
-  oauth2:
-    client:
-      client-id: corner
-      client-secret: aaa
-      registered-redirect-uri: "http://example.com"

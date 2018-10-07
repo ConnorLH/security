@@ -16,12 +16,7 @@ public class ImageValidateCodeProcessor extends AbstractValidateCodeProcessor {
 
     @Override
     public void send(ValidateCode validateCode, ServletWebRequest request) throws IOException {
-        ImageIO.write(((ImageCode) validateCode).getImage(), "JPEG", request.getResponse().getOutputStream());
-    }
-
-    @Override
-    public void save(ValidateCode validateCode, ServletWebRequest request) {
-        getStrategy().setAttribute(request, SESSION_KEY_IMAGE, validateCode);
         request.getResponse().setContentType("image/jpeg");
+        ImageIO.write(((ImageCode) validateCode).getImage(), "JPEG", request.getResponse().getOutputStream());
     }
 }

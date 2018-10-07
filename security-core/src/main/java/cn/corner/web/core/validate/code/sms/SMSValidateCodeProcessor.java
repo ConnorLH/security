@@ -22,9 +22,4 @@ public class SMSValidateCodeProcessor extends AbstractValidateCodeProcessor {
         String mobile = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), "mobile");
         sender.send(mobile,validateCode.getCode());
     }
-
-    @Override
-    public void save(ValidateCode validateCode, ServletWebRequest request) {
-        getStrategy().setAttribute(request, SESSION_KEY_SMS, validateCode);
-    }
 }

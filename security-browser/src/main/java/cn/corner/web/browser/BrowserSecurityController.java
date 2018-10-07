@@ -1,7 +1,8 @@
-package cn.corner.web.app;
+package cn.corner.web.browser;
 
 import cn.corner.web.core.properties.SecurityProperties;
 import cn.corner.web.core.support.SimpleSupport;
+import cn.corner.web.core.support.SocialUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,23 @@ public class BrowserSecurityController {
             }
         }
         return new SimpleSupport("访问的用户需要认证，请引导到登录页");
+    }
+
+    @GetMapping("/social/user")
+    public SocialUserInfo getSocialUserInfo(HttpServletRequest request){
+        SocialUserInfo socialUserInfo = new SocialUserInfo();
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        socialUserInfo.setProviderId(connection.getKey().getProviderId());
+        socialUserInfo.setProviderUserId(connection.getKey().getProviderUserId());
+        socialUserInfo.setNickname(connection.getDisplayName());
+        socialUserInfo.setHeadImg(connection.getImageUrl());
+        return socialUserInfo;
+    }
+
+    @GetMapping("/session/invalid")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public SimpleSupport sessionInvalid(){
+        String message = "Session失效";
+        return new SimpleSupport(message);
     }
 }

@@ -8,12 +8,12 @@ public interface SecurityConstant {
     /**
      * 请求登录页的url
      */
-    public static final String LOGIN_PAGE_URL="/authentication/require";
+    public static final String LOGIN_PAGE_URL = "/authentication/require";
 
     /**
      * 拦截的登录请求url
      */
-    public static final String LOGIN_PROCESS_URL="/authentication/form";
+    public static final String LOGIN_PROCESS_URL = "/authentication/form";
 
     /**
      * 默认的手机验证码登录请求处理url
@@ -37,9 +37,15 @@ public interface SecurityConstant {
     /**
      * 验证码请求url
      */
-    public static final String VALIDATE_CODE_URL="/code/*";
+    public static final String VALIDATE_CODE_URL = "/code/*";
 
-    public  static final String SOCIAL_LOGIN_PAGE="/login/*";
+    public static final String SOCIAL_LOGIN_PAGE = "/login/*";
 
     public static final String DEFAULT_SESSION_INVALID_URL = "/my-invalid.html";
+
+    public static final String DEFAULT_PARAMETER_NAME_OPENID = "openid";
+
+    public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
+
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/authentication/social";
 }
