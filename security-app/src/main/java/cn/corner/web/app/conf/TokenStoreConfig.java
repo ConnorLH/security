@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
 public class TokenStoreConfig {
@@ -22,7 +23,7 @@ public class TokenStoreConfig {
     @Bean
     @ConditionalOnProperty(prefix = "corner.security.oauth2",name = "storeType",havingValue = "redis")
     public TokenStore redisTokenStore(){
-        return new MyRedisTokenStore(redisConnectionFactory);
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
     @Configuration

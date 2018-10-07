@@ -45,6 +45,7 @@ corner:
         clientId: corner
         clientSecret: aaa
         accessTokenValiditySeconds: 3600
+    storeType: redis
 server:
   port: 8080
   servlet:
