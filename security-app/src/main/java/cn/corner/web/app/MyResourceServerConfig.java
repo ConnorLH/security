@@ -1,6 +1,7 @@
 package cn.corner.web.app;
 
 import cn.corner.web.app.conf.OpenIdAuthenticationSecurityConfig;
+import cn.corner.web.core.authorize.AuthorizeConfigManager;
 import cn.corner.web.core.conf.SMSCodeAuthenticationSecurityConfig;
 import cn.corner.web.core.conf.SecurityConstant;
 import cn.corner.web.core.conf.ValidateCodeFilterConfig;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
 
+@SuppressWarnings("ALL")
 @Configuration
 @EnableResourceServer
 public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -46,6 +48,9 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -64,21 +69,8 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .apply(openIdAuthenticationSecurityConfig)
                 .and()
-            .authorizeRequests()
-                .antMatchers(
-                    SecurityConstant.VALIDATE_CODE_URL
-                    ,SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                    ,SecurityConstant.LOGIN_PAGE_URL
-                    ,securityProperties.getBrowser().getLoginPage()
-                    ,securityProperties.getBrowser().getSignUpUrl()
-                    ,securityProperties.getBrowser().getSession().getSessionInvalidUrl()
-                    ,securityProperties.getBrowser().getSignOutUrl()
-                    ,"/social/signUp","/user/regist")
-                     .permitAll()
-                .anyRequest()
-                    .authenticated()
-                .and()
             .csrf().disable();
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 
 }

@@ -16,14 +16,19 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-       <!-- <dependency>
+        <dependency>
             <groupId>cn.corner</groupId>
             <artifactId>security-browser</artifactId>
+            <version>${corner.security.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>cn.corner</groupId>
+            <artifactId>security-app</artifactId>
             <version>${corner.security.version}</version>
         </dependency>-->
         <dependency>
             <groupId>cn.corner</groupId>
-            <artifactId>security-app</artifactId>
+            <artifactId>security-authorize</artifactId>
             <version>${corner.security.version}</version>
         </dependency>
         <dependency>

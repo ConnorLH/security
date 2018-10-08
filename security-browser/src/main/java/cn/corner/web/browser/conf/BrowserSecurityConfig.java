@@ -1,5 +1,6 @@
 package cn.corner.web.browser.conf;
 
+import cn.corner.web.core.authorize.AuthorizeConfigManager;
 import cn.corner.web.core.conf.LoginConfig;
 import cn.corner.web.core.conf.SMSCodeAuthenticationSecurityConfig;
 import cn.corner.web.core.conf.SecurityConstant;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,6 +60,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private InvalidSessionStrategy invalidSessionStrategy;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         loginConfig.applyLoginConfigure(http);
@@ -80,21 +85,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .expiredSessionStrategy(sessionInformationExpiredStrategy)
                     .and()
                     .and()
-                .authorizeRequests()
-                    .antMatchers(
-                            SecurityConstant.VALIDATE_CODE_URL
-                            ,SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                            ,SecurityConstant.LOGIN_PAGE_URL
-                            ,securityProperties.getBrowser().getLoginPage()
-                            ,securityProperties.getBrowser().getSignUpUrl()
-                            ,securityProperties.getBrowser().getSession().getSessionInvalidUrl()
-                            ,securityProperties.getBrowser().getSignOutUrl()
-                            ,"/user/regist")
-                            .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
                 .csrf().disable();
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 
     @Bean
