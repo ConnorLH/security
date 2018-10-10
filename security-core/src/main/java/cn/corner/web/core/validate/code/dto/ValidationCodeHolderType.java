@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 验证码类型对应拦截的url封装类
+ */
 @Data
 @AllArgsConstructor
 public class ValidationCodeHolderType {

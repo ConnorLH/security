@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 社交账号绑定状态视图
+ * 社交账号绑定状态的Endpoint已经在ConnectController中默认提供了
+ */
 @Component("connect/status")
 public class MyConnectionStatusView extends AbstractView {
 

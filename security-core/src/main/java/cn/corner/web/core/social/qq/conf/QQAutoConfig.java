@@ -10,9 +10,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactory;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
 
+/**
+ * 将我们的QQConnectionFactory设置到Security Social中
+ */
 @Configuration
 @ConditionalOnProperty(prefix = "corner.security.social.qq",name = "app-id")
 public class QQAutoConfig extends SocialConfigurerAdapter {
@@ -28,10 +29,5 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
     public ConnectionFactory<?> createConnectionFactory() {
         QQProperties qq = securityProperties.getSocial().getQq();
         return new QQConnectionFactory(qq.getProviderId(), qq.getAppId(), qq.getAppSecret());
-    }
-
-    @Override
-    public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        return null;
     }
 }

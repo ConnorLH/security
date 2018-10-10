@@ -3,8 +3,13 @@ package cn.corner.web.core.social.qq.connect;
 import cn.corner.web.core.social.qq.api.QQAPI;
 import cn.corner.web.core.social.qq.api.QQAPIImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 
+/**
+ * QQ服务提供者
+ * 提供oauth2 api连接的实现即QQOauth2Template
+ * 提供oauth2授权码流程操作类OAuth2Operations（已经默认提供了一个实现）
+ * 提供业务数据api的实现
+ */
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQAPI> {
 
     private String appId;

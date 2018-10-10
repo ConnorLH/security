@@ -27,6 +27,17 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 根据登录类型（可配置）
+     * 浏览器用户登录 or app引导过来的登录请求
+     * 以此决定进行security默认的跳转（到引发登录请求的页面，会提前存储）
+     * 或者直接返回json数据
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         log.info("登录成功");

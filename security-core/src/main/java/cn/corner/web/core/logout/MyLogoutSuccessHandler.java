@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 登出成功后会调用这个处理器
+ */
 @Slf4j
 public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
@@ -23,6 +26,14 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
         this.signOutUrl = signOutUrl;
     }
 
+    /**
+     * 如果配置了登出成功后的跳转url那么redirect，否则返回登出成功json数据
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         log.info("退出操作成功！");

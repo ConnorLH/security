@@ -10,11 +10,24 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+/**
+ * 图片验证码生成器
+ */
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 可以根据请求参数生成不同效果的验证码（具有可配置的默认值）
+     * 参数
+     * width
+     * height
+     * length
+     * expire
+     * @param request
+     * @return
+     */
     @Override
     public ImageCode buildCode(HttpServletRequest request) {
         int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getCode().getImageCode().getWidth());

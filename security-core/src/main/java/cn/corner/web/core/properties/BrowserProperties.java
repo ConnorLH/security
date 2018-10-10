@@ -11,6 +11,8 @@ public class BrowserProperties {
 
     private String signOutUrl = "";
 
+    private String registUrl = "/user/regist";
+
     private LoginType loginType = LoginType.JSON;
 
     private int rememberMeSeconds = 3600;

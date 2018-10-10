@@ -60,6 +60,14 @@ public class BrowserSecurityController {
         return new SimpleSupport("访问的用户需要认证，请引导到登录页");
     }
 
+    /**
+     * 社交登录后如果没有找到业务userId则会进入注册流程，会302到注册页面
+     * 而注册页面一般会展示已经获取到的用户social数据，这个接口就是返回这些数据的
+     * 在302之前spring social会将connection数据存入session中
+     * 所以使用工具类直接从session中取出这些数据就可以了
+     * @param request
+     * @return
+     */
     @GetMapping("/social/user")
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request){
         SocialUserInfo socialUserInfo = new SocialUserInfo();

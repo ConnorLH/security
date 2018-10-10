@@ -13,9 +13,8 @@ import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2ServiceProvider;
 
 /**
- * 微信连接工厂
- *
- * @author zhailiang
+ * 微信的OAuth2工厂
+ * 可以创建出一套微信的OAuth2授权使用的类
  *
  */
 public class WeixinConnectionFactory extends OAuth2ConnectionFactory<WeixinAPI> {

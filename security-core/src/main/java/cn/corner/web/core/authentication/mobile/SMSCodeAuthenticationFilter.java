@@ -11,6 +11,10 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 短信登录过滤器，主要处理用户信息匹配
+ * 不再校验验证码，因为在之前的ValidateCodeFilter中已经进行了校验
+ */
 public class SMSCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private String mobileParameter = SecurityConstant.CORNER_FORM_MOBILE_KEY;
@@ -32,8 +36,10 @@ public class SMSCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             }
 
             mobile = mobile.trim();
+            // 将请求参数封装成AuthenticationToken交给Provider进行认证
             SMSCodeAuthenticationToken authRequest = new SMSCodeAuthenticationToken(mobile);
             this.setDetails(request, authRequest);
+            // AuthenticationManager查找（调supports方法）相应的Provider进行认证
             return this.getAuthenticationManager().authenticate(authRequest);
         }
     }
@@ -42,6 +48,11 @@ public class SMSCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         return request.getParameter(this.mobileParameter);
     }
 
+    /**
+     * 将请求中的用户信息也设置到认证成功的Authentication中
+     * @param request
+     * @param authRequest
+     */
     protected void setDetails(HttpServletRequest request, SMSCodeAuthenticationToken authRequest) {
         authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
     }

@@ -20,7 +20,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +37,17 @@ public class UserController {
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 注册逻辑
+     * @param user
+     * @param request
+     */
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request){
         // 不管是注册用户还是绑订用户，都会从页面拿到一个用户唯一标识
         String userId = user.getUsername();
-        // 这里可以进行业务上的注册或者绑订逻辑，完成之后执行下面,将业务用户id与social用户的几个id（openid等）联系在一起
+        // 这里可以进行业务上的注册或者绑订逻辑，完成之后执行下面（根据业务可选）
+        // 如果是社交登录302到注册的，那么可以将业务用户id与social用户的几个id（openid等）联系在一起
         // 即，一起放入spring social的userconnection表中。便于之后用户再次采用第三方登录，可以从这个表中拿到业务的用户id，从而
         // 拿到业务的用户数据放入UserDetails中也即构建Authentication
         //appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);

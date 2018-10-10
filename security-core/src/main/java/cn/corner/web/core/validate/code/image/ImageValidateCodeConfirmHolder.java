@@ -11,6 +11,9 @@ import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 图片验证码校验器
+ */
 @Component("imageValidateCodeConfirmHolder")
 @Slf4j
 public class ImageValidateCodeConfirmHolder extends AbstractValidateCodeConfirmHolder {

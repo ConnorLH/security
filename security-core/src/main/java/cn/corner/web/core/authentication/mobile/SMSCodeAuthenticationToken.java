@@ -5,6 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+/**
+ * 封装短信登录信息的AuthenticationToken
+ */
 public class SMSCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = 500L;

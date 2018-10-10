@@ -8,6 +8,9 @@ import org.springframework.social.oauth2.TokenStrategy;
 
 import java.io.IOException;
 
+/**
+ * 对QQ提供的API接口进行调用实现
+ */
 @Slf4j
 public class QQAPIImpl extends AbstractOAuth2ApiBinding implements QQAPI {
 
@@ -21,7 +24,14 @@ public class QQAPIImpl extends AbstractOAuth2ApiBinding implements QQAPI {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * 在构造方法中使用父类提供的RestTemplate来调用QQ的接口获取openid
+     * 注意这里需要已经获得access_token
+     * @param accessToken
+     * @param appid
+     */
     public QQAPIImpl(String accessToken,String appid){
+        // 父类会自动加上access_token等api调用参数
         super(accessToken,TokenStrategy.ACCESS_TOKEN_PARAMETER);
         this.appid = appid;
 
@@ -34,6 +44,10 @@ public class QQAPIImpl extends AbstractOAuth2ApiBinding implements QQAPI {
         this.openid = StringUtils.substringBetween(result,"\"openid\":\"","\"}");
     }
 
+    /**
+     * 获取用户数据，注意需要使用QQ规定的数据格式进行接收即QQUserInfo
+     * @return
+     */
     @Override
     public QQUserInfo getUserInfo() {
 

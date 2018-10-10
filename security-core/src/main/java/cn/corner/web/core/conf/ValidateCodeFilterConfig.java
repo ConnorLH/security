@@ -11,6 +11,7 @@ import javax.servlet.Filter;
 
 /**
  * 验证码拦截与校验过滤器配置
+ * 这里只需要添加一个过滤器到security的过滤器链中即可
  */
 @Configuration
 public class ValidateCodeFilterConfig extends AbstractHttpConfigurer<ValidateCodeFilterConfig, HttpSecurity> {

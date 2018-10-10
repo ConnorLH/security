@@ -2,6 +2,9 @@ package cn.corner.web.core.social.qq.api;
 
 import lombok.Data;
 
+/**
+ * QQ规定返回的用户数据结构
+ */
 @Data
 public class QQUserInfo {
     // 用户openid

@@ -12,6 +12,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 将验证码存储在redis中
+ */
 @Component
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
@@ -34,6 +37,13 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
         redisTemplate.delete(buildKey(request, validateCodeType));
     }
 
+    /**
+     * 生成redis验证码存储key
+     * 必须要求请求头中有deviceId以此作为查找主键（标识每一个设备）
+     * @param request
+     * @param validateCodeType
+     * @return
+     */
     private String buildKey(ServletWebRequest request, ValidateCodeType validateCodeType) {
         String deviceId = request.getHeader("deviceId");
         if(StringUtils.isBlank(deviceId)){

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 登录失败将会被调用（密码不匹配等情况）
+ */
 @Component
 @Slf4j
 public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -26,6 +29,17 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 根据登录类型（可配置）
+     * 浏览器用户登录 or app引导过来的登录请求
+     * 以此决定进行security默认的跳转（到403错误页面，可在resource中配置）
+     * 或者直接返回json数据
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param e
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         log.info("登录失败");

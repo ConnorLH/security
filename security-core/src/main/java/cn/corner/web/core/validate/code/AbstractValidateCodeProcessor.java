@@ -5,14 +5,17 @@ import cn.corner.web.core.validate.code.dto.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * 抽象的验证码生成处理器，定义了创建、存储、发送验证码的模板方法
+ * 提供默认的生成和保存逻辑
+ * @param <T>
+ */
 @Slf4j
 public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> implements ValidateCodeProcessor {
 
@@ -48,13 +51,18 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
         validateCodeRepository.save(request,validateCode,getValidateCodeType(request));
     }
 
+    /**
+     * 根据具体的验证码处理器实现类名来获取验证码类型
+     * @param request
+     * @return
+     */
     private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
         String processor = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
         return ValidateCodeType.valueOf(processor.toUpperCase());
     }
 
     /**
-     * 默认根据uri生成对应的验证码，可以覆盖实现
+     * 默认根据uri获取验证码类型实现来生成对应的验证码，可以覆盖实现
      *
      * @param request
      * @return

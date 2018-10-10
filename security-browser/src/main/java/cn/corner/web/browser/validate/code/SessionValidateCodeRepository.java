@@ -3,12 +3,14 @@ package cn.corner.web.browser.validate.code;
 import cn.corner.web.core.validate.code.ValidateCodeRepository;
 import cn.corner.web.core.validate.code.dto.ValidateCode;
 import cn.corner.web.core.validate.code.dto.ValidateCodeType;
-import cn.corner.web.core.validate.code.sms.SMSValidateCodeProcessor;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
+/**
+ * 将验证码存储在session中
+ */
 @Component
 public class SessionValidateCodeRepository implements ValidateCodeRepository {
 

@@ -21,6 +21,9 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
+/**
+ * 社交登录总配置类
+ */
 @Configuration
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
@@ -40,20 +43,37 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private SocialAuthenticationFilterPostProcessor postProcessor;
 
+    /**
+     * 用于存储social信息和业务数据用户id对应关系
+     * @param connectionFactoryLocator
+     * @return
+     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+        // 可以指定表前缀
+        // repository.setTablePrefix("xxx_");
+        // 设置自动注册处理器
         if(connectionSignUp != null){
             repository.setConnectionSignUp(connectionSignUp );
         }
         return repository;
     }
 
+    /**
+     * 设置从哪里获取用户id，这里是从Authentication中获取（也有默认实现的session中获取）
+     * @return
+     */
     @Override
     public UserIdSource getUserIdSource() {
         return new AuthenticationNameUserIdSource();
     }
 
+    /**
+     * 自定义SpringSocialConfigurer配置
+     * 主要作用是与个性化模块的配置做一个连接，让他们有机会在SocialAuthenticationFilter上设置自己个性化的东西
+     * @return
+     */
     @Bean
     public SpringSocialConfigurer mySocialConfigurer(){
         MySpringSocialConfigurer configurer = new MySpringSocialConfigurer(securityProperties.getSocial().getFilterProcessesUrl());
@@ -69,6 +89,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     /**
      * 注册Spring-social自带的ConnectController
+     * 用于处理授权请求
      * @return
      */
     @Bean

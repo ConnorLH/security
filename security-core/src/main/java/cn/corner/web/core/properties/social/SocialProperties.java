@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SocialProperties {
 
-    private String filterProcessesUrl = "/auth";
+    private String[] filterProcessesUrls = {"/auth"};
 
     private QQProperties qq = new QQProperties();
 

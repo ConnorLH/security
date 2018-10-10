@@ -11,6 +11,9 @@ import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 短信校验码处理器
+ */
 @Component("smsValidateCodeConfirmHolder")
 @Slf4j
 public class SMSValidateCodeConfirmHolder extends AbstractValidateCodeConfirmHolder {
