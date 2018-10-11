@@ -20,6 +20,12 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
 
+/**
+ * 资源服务器配置
+ * 有了这个资源服务器的注解就相当于使用了另一套WebSecurity的支持，这个支持OAuth2的认证授权处理
+ * 所以在app这种架构，例如微服务之间的交流（不涉及和用户直接交流）就非常适用这种方式，因为OAuth2的认证对于此种场景很合适
+ * 当然用户使用这种方式和服务交流也可以
+ */
 @SuppressWarnings("ALL")
 @Configuration
 @EnableResourceServer

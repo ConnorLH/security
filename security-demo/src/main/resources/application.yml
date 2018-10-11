@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/paascloud_uac?useUnicode=yes&characterEncode=UTF-8&useSSL=true
     username: root
-    password: corner666
+    password: root
   session:
     store-type: REDIS
 # 配置返回时json中将Date转为时间戳
@@ -11,7 +11,7 @@ spring:
     serialization:
       write-dates-as-timestamps: true
   redis:
-    host: 192.168.25.130
+    host: 192.168.25.131
     password: corner666
     port: 6379
 corner:

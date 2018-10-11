@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 登录失败处理器，和Browser模块的一样
+ */
 @Component
 @Slf4j
 public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

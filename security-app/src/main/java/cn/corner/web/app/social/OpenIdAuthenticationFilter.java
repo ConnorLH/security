@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 实现app模式下用户使用社交登录，主要逻辑就是使用openId作为登录用户名
+ */
 public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private String openIdParameter = SecurityConstant.DEFAULT_PARAMETER_NAME_OPENID;
