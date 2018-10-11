@@ -2,10 +2,8 @@ package cn.corner.web.core.validate.code.image;
 
 import cn.corner.web.core.validate.code.dto.ValidateCode;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.awt.image.BufferedImage;
-import java.beans.Transient;
 import java.time.LocalDateTime;
 
 @Data

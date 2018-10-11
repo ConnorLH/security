@@ -7,10 +7,14 @@ import cn.corner.web.core.conf.SecurityConstant;
 import cn.corner.web.core.conf.ValidateCodeFilterConfig;
 import cn.corner.web.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -51,6 +55,9 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
 
+    @Autowired
+    private ApplicationContext context;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -72,5 +79,27 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
             .csrf().disable();
         authorizeConfigManager.config(http.authorizeRequests());
     }
+
+    /**
+     * 为什么配置这个请参见
+     * https://stackoverflow.com/questions/29328124/no-bean-resolver-registered-in-the-context-to-resolve-access-to-bean
+     * https://blog.csdn.net/liu_zhaoming/article/details/79411021
+     * https://github.com/spring-projects/spring-security-oauth/issues/730
+     * @param resources
+     * @throws Exception
+     */
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.expressionHandler(getOAuth2MethodSecurityExpressionHandler());
+    }
+
+    @Bean
+    public DefaultWebSecurityExpressionHandler getOAuth2MethodSecurityExpressionHandler() {
+        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        defaultWebSecurityExpressionHandler.setApplicationContext(context);
+        return defaultWebSecurityExpressionHandler;
+    }
+
+
 
 }

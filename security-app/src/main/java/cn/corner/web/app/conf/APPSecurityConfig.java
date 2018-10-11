@@ -1,7 +1,6 @@
 package cn.corner.web.app.conf;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,13 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * 所以必须在这里对其进行登录拦截
  *
  */
-@Configuration
+//@Configuration
 public class APPSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/oauth/authorize").authenticated()
-                .anyRequest().permitAll().and().httpBasic();
+            .and().httpBasic();
     }
 
     @Override

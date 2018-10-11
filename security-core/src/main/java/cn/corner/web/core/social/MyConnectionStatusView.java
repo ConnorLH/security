@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * 社交账号绑定状态视图
  * 社交账号绑定状态的Endpoint已经在ConnectController中默认提供了
+ * 处理社交绑定的Controller是{@link ConnectController}
  */
 @Component("connect/status")
 public class MyConnectionStatusView extends AbstractView {

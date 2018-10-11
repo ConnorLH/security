@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
+/**
+ * 用于设置各模块公用的拦截路径配置
+ */
 @Component
 @Order(Integer.MIN_VALUE)
 public class MyAuthorizeConfigProvider implements AuthorizeConfigProvider {

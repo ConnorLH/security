@@ -3,12 +3,8 @@
  */
 package cn.corner.web.browser.session;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import cn.corner.web.core.support.SimpleSupport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -17,17 +13,19 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * @author zhailiang
+ * 判断Session失效（过期）或者无效后处理策略
  *
  */
 @Slf4j
 public class AbstractSessionStrategy {
 
 	/**
-	 * 跳转的url
+	 * session失效后跳转的url
 	 */
 	private String destinationUrl;
 	/**
@@ -49,6 +47,13 @@ public class AbstractSessionStrategy {
 		this.destinationUrl = invalidSessionUrl;
 	}
 
+
+	/**
+	 * 根据请求是网页文件还是api返回不同的内容
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	protected void onSessionInvalid(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		if (createNewSession) {
@@ -57,12 +62,13 @@ public class AbstractSessionStrategy {
 
 		String sourceUrl = request.getRequestURI();
 		String targetUrl;
-
+		// 请求网页则重定向到session失效的路径
 		if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
 			targetUrl = destinationUrl+".html";
 			log.info("session失效,跳转到"+targetUrl);
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}else{
+			// api请求则返回session失效json信息
 			String message = "session已失效";
 			if(isConcurrency()){
 				message = message + "，有可能是并发登录导致的";

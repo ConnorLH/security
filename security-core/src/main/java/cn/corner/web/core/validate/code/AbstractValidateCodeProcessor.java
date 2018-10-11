@@ -2,6 +2,7 @@ package cn.corner.web.core.validate.code;
 
 import cn.corner.web.core.validate.code.dto.ValidateCode;
 import cn.corner.web.core.validate.code.dto.ValidateCodeType;
+import cn.corner.web.core.validate.code.image.ImageCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,15 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
      * @param request
      */
     protected void save(T validateCode, ServletWebRequest request) {
-        validateCodeRepository.save(request,validateCode,getValidateCodeType(request));
+        // 如果是图片验证码，这里保存的时候不需要保存图片
+        if(validateCode instanceof ImageCode){
+            ValidateCode imageCode = new ImageCode();
+            imageCode.setCode(validateCode.getCode());
+            imageCode.setExpireTime(validateCode.getExpireTime());
+            validateCodeRepository.save(request,imageCode,getValidateCodeType(request));
+        }else{
+            validateCodeRepository.save(request,validateCode,getValidateCodeType(request));
+        }
     }
 
     /**

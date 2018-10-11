@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- *
+ * 自定义的session无效策略，这里采用抽象类提供的默认实现
  *
  */
 public class MyInvalidSessionStrategy extends AbstractSessionStrategy implements InvalidSessionStrategy {

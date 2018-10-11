@@ -3,15 +3,14 @@
  */
 package cn.corner.web.browser.session;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 /**
- * @author zhailiang
+ * 自定义session失效后的处理策略，这里默认使用抽象类提供的实现，并且默认为session失效是由于并发登录导致的
  *
  */
 public class MyExpiredSessionStrategy extends AbstractSessionStrategy implements SessionInformationExpiredStrategy {

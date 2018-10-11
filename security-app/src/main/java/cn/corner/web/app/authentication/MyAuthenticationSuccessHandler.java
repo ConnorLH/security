@@ -1,6 +1,5 @@
 package cn.corner.web.app.authentication;
 
-import cn.corner.web.core.properties.LoginType;
 import cn.corner.web.core.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +13,6 @@ import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAut
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.social.oauth2.GrantType;
-import org.springframework.social.security.provider.OAuth2AuthenticationService;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -25,7 +22,10 @@ import java.io.IOException;
 import java.util.Base64;
 
 /**
- * 登录成功将会被调用
+ * 登录成功将会被调用，主要用于设置app模块特有的token登录方式
+ * PS：token和cookie的区别个人认为其实就是对于app这种服务器是否可见，
+ * 如果是返回cookie那么app处理起来很不方便（还需要自己去实现浏览器那套操作cookie的东西），所以直接把关键的令牌信息字符串给它就行了
+ * 以后交流拿这个令牌交换信息方便很多（浏览器会自动携带cookie但是app需要自己实现啊）
  */
 @Component
 @Slf4j
@@ -55,13 +55,14 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         log.info("登录成功");
-
+        // 先从请求头里面取出client的认证信息（不是用户的，用户的是在参数中，并且走到这里说明已经被认证成功了）
         String header = httpServletRequest.getHeader("Authorization");
-        if (header != null && header.startsWith("Basic ")) {
+        if (header != null && (header.startsWith("Basic ") || header.startsWith("basic "))) {
             String[] tokens = this.extractAndDecodeHeader(header, httpServletRequest);
             assert tokens.length == 2;
             String clientId = tokens[0];
             String clientSecret = tokens[1];
+            // 根据参数clientId查找存储的ClientDetails
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
             if(clientDetails == null){
                 throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:"+clientId);
@@ -82,6 +83,13 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         }
     }
 
+    /**
+     * 解析请求头中的Authorization部分（被Base64加密过），取出clientId
+     * @param header
+     * @param request
+     * @return
+     * @throws IOException
+     */
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
         byte[] base64Token = header.substring(6).getBytes("UTF-8");
 
