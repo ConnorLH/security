@@ -30,8 +30,8 @@ corner:
       smsCode:
         url: /authentication/mobile
     social:
-      filterProcessesUrls: {/login/callback,/qqLogin}
-#      filterProcessesUrl: /qqLogin
+#      filterProcessesUrl: /login/callback
+      filterProcessesUrl: /qqLogin
       qq:
         app-id: 101503943
         app-secret: ea51ad9f67d1244537f4f2ed9db9242c
