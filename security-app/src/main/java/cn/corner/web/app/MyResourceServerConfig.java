@@ -78,6 +78,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
+
             .apply(springSocialConfigurer)
                 .and()
             .apply(openIdAuthenticationSecurityConfig)

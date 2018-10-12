@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
 /**
- * SpringSocialConfigurer这个Bean初始化之后设置app的不同处理方式(即跳到app指定的url上)
+ * SpringSocialConfigurer这个Bean初始化之后，覆盖前面的配置，设置app的不同处理方式(即跳到app指定的url上)
  * （太不优雅，需要修改为更加合适的app自定义配置）
  */
 @Component

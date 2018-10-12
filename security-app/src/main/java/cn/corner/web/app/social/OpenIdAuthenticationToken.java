@@ -1,12 +1,14 @@
 package cn.corner.web.app.social;
 
-import lombok.Data;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * 封装OpenId登录方式的request用户数据
+ */
 public class OpenIdAuthenticationToken extends AbstractAuthenticationToken {
 
     private Object principal;

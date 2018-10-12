@@ -12,6 +12,9 @@ import org.springframework.social.security.SocialUserDetailsService;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 处理OpenId登录方式的认证逻辑，这里就查找数据库有匹配的OpenId即可认为登录成功
+ */
 public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
     private SocialUserDetailsService userDetailsService;
