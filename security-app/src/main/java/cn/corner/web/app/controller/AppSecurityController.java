@@ -39,6 +39,7 @@ public class AppSecurityController {
         socialUserInfo.setProviderUserId(connection.getKey().getProviderUserId());
         socialUserInfo.setNickname(connection.getDisplayName());
         socialUserInfo.setHeadImg(connection.getImageUrl());
+        // 先将信息存起来，注册的请求中会使用到这些数据
         appSignUpUtils.saveConnectionData(new ServletWebRequest(request),connection.createData());
         return socialUserInfo;
     }

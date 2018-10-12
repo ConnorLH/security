@@ -23,6 +23,9 @@ import javax.sql.DataSource;
 
 /**
  * 社交登录总配置类
+ * 注意在app模式下的social登录其实就是执行的授权码模式，app将获取到的code给我们，我们拿这个code去换access_token
+ * 成功后不是返回social服务商给的access_token而是我们自己的token，说明它在我们这里使用这种方式通过了认证
+ * PS：signupUrl和自动注册处理器connectionSignUp是否冲突？？？
  */
 @Configuration
 @EnableSocial
@@ -77,6 +80,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public SpringSocialConfigurer mySocialConfigurer(){
         MySpringSocialConfigurer configurer = new MySpringSocialConfigurer(securityProperties.getSocial().getFilterProcessesUrl());
+        // 特别需要注意的是这里配置设置的跳转注册url在app模式时可以被覆盖
         configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         configurer.setPostProcessor(postProcessor);
         return configurer;

@@ -14,6 +14,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+/**
+ * 配置我们的服务器返回给请求认证方的令牌（token）
+ */
 @Configuration
 public class TokenStoreConfig {
 

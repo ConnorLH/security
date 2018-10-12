@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 这个过滤器实现app模式下用户使用OpenId的方式（其实就是OAuth2的简化模式）进行社交登录，主要逻辑就是使用openId作为登录用户名（没有密码等），数据库有对应openId的数据就行
+ * 这个过滤器实现app模式下用户使用OpenId的方式进行社交登录，主要逻辑就是使用openId作为登录用户名（没有密码等），数据库有对应openId的数据就行
  */
 public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 

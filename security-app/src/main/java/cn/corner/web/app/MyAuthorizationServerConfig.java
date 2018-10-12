@@ -57,9 +57,15 @@ public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAd
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        // 这三个配置非常重要
+        // 1.authenticationManager是为了采用WebSecurity的方式进行认证相关Endpoint的保护（拦截）
         endpoints.authenticationManager(authenticationManager)
+                // 2.设置我们自己的读取用户信息的业务类，因为在认证时会首先认证用户信息（上面的authenticationManager流程中使用）
                 .userDetailsService(userDetailsService)
+                // 3.设置我们返回的token格式
                 .tokenStore(tokenStore);
+
+        // 这段就是将如何构造和验证token的工具设置进去
         if(jwtAccessTokenConverter != null && tokenEnhancer!=null){
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
             List<TokenEnhancer> enhancers = new ArrayList<>();
@@ -99,6 +105,12 @@ public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAd
         }
     }
 
+    /**
+     * 在校验clientSecret时默认就会使用最新的DelegatingPasswordEncoder（和DefaultFormLoginConfig中配置的一样）
+     * 为了简单我们clientSecret都是明文存储，如果需要加密，修改这里即可
+     * @param security
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.passwordEncoder(NoOpPasswordEncoder.getInstance());

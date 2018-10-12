@@ -1,7 +1,6 @@
 package cn.corner.web.app.social;
 
 import cn.corner.web.app.AppSecretException;
-import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,6 +10,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 因为app不是基于session的需要自己操作会话信息存储，这里使用redis进行存储
+ */
 @Component
 public class AppSignUpUtils {
 
@@ -27,6 +29,12 @@ public class AppSignUpUtils {
         redisTemplate.opsForValue().set(getKey(request),connectionData,10, TimeUnit.MINUTES);
     }
 
+    /**
+     * 绑定逻辑，将之前保存的social信息取出来和申请注册的userId一起插入到usersConnection表中
+     * 这样用户下一次使用social登录就可以找到userId了，进而找到用户的业务信息，这样就可以认证成功了
+     * @param request
+     * @param userId
+     */
     public void doPostSignUp(WebRequest request,String userId){
         String key = getKey(request);
         if(!redisTemplate.hasKey(key)){
