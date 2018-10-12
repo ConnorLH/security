@@ -8,6 +8,9 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * token增强器，可以设置额外的信息到token中，这个根据需要自定义设置
+ */
 public class MyJwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {

@@ -25,6 +25,7 @@
 
     <properties>
         <corner.security.version>1.0-SNAPSHOT</corner.security.version>
+        <!--为了解决OAuth2版本和redis版本不兼容的问题-->
         <spring-security-oauth.version>2.3.3.RELEASE</spring-security-oauth.version>
     </properties>
 
