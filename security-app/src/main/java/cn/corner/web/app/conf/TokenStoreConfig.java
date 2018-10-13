@@ -46,7 +46,7 @@ public class TokenStoreConfig {
         }
 
         /**
-         * JWT生成
+         * JWT生成，注意JwtAccessTokenConverter也是一个TokenEnhancer
          * @return
          */
         @Bean
@@ -56,6 +56,10 @@ public class TokenStoreConfig {
             return accessTokenConverter;
         }
 
+        /**
+         * 额外的JWT处理器，其实就是用于向JWT中添加信息
+         * @return
+         */
         @Bean
         @ConditionalOnMissingBean(name = "jwtTokenEnhancer")
         public TokenEnhancer jwtTokenEnhancer(){

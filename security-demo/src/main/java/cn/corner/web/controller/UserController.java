@@ -60,6 +60,13 @@ public class UserController {
         return authentication;
     }
 
+    /**
+     * 手动从JWT中提取出我们的自定义信息
+     * @param authentication
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/me3")
     public Object getJwtInfo(Authentication authentication,HttpServletRequest request) throws Exception {
         String header = request.getHeader("Authorization");

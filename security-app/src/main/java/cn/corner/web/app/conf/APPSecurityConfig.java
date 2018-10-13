@@ -16,6 +16,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * 理论上必须要配置这个，因为只有配置了这个WebSecurity才能生效，而WebSecurity生效了才能对认证服务的那几个Endpoints进行拦截
  * 什么？哪几个Endpoints？好吧。
  * "/oauth/authorize"  "/oauth/token"   "/oauth/token_key"   "/oauth/check_token" ...
+ * =================对不起，上面全是屁话================
+ * 只有部分是正确的，的却需要设置Basic的认证方式，因为这种方式是便于和App沟通的，它只需要把用户的用户名和密码放到请求头Authorization中
+ * 就能够进行认证了的同时获取code，否则还需要先认证再发一次请求获取code
+ * 重点来了，为什么需要暴露AuthenticationManager在MyAuthorizationServerConfig中应用进去，简单来说原因只有一个，为了支持密码模式
+ * 的OAuth2认证方式。具体见AuthorizationServerEndpointsConfigurer###getDefaultTokenGranters()
  */
 @Configuration
 public class APPSecurityConfig extends WebSecurityConfigurerAdapter {
