@@ -20,6 +20,7 @@ import java.util.List;
 
     public QQOauth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
         super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
+        // 这里必须设置为true，默认实现才能携带client_id和client_secret参数
         setUseParametersForClientAuthentication(true);
     }
 

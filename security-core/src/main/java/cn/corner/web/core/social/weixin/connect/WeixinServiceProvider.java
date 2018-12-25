@@ -6,6 +6,7 @@ package cn.corner.web.core.social.weixin.connect;
 import cn.corner.web.core.social.weixin.api.WeixinAPI;
 import cn.corner.web.core.social.weixin.api.WeixinAPIImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
+import org.springframework.social.oauth2.OAuth2Operations;
 
 /**
  *
@@ -35,6 +36,8 @@ public class WeixinServiceProvider extends AbstractOAuth2ServiceProvider<WeixinA
 
 	@Override
 	public WeixinAPI getApi(String accessToken) {
+		// 这里直接从WeixinOauth2Template中获取到的
+		OAuth2Operations oAuthOperations = getOAuthOperations();
 		return new WeixinAPIImpl(accessToken);
 	}
 

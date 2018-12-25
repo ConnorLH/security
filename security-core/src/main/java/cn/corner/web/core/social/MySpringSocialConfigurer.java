@@ -19,7 +19,7 @@ public class MySpringSocialConfigurer extends SpringSocialConfigurer {
     }
 
     /**
-     * 配置社交登陆拦截的url
+     * 这里覆盖父类的这个方法，主要就是为了能够配置社交登陆拦截的url，具体逻辑看父类的configure()方法，其中会调用这个postProcess()方法，这就是我们自定义的时机
      * 设置社交登录后的处理器（注意与表单登录处设置登录成功处理器区别，这是两种登录方式）
      * @param object
      * @param <T>

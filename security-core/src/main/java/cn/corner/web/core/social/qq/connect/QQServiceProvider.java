@@ -23,8 +23,14 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQAPI> {
         this.appId = appId;
     }
 
+    /**
+     * 每个用户都有不同的AbstractOAuth2ApiBinding，因为我们把openId封装在QQAPI的实现中了
+     * @param accessToken
+     * @return
+     */
     @Override
     public QQAPI getApi(String accessToken) {
+        // 能否在这里就用accessToken去换openId,然后将accessToken和openId设置到ThreadLocal中，这样，QQAPIImpl只需要创建一次就行了？？？？？
         return new QQAPIImpl(accessToken,appId);
     }
 }

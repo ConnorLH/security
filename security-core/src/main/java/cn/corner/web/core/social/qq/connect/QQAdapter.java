@@ -30,6 +30,11 @@ public class QQAdapter implements ApiAdapter<QQAPI> {
         return null;
     }
 
+    /**
+     * 用于像微博这种更新用户状态
+     * @param qqapi
+     * @param s
+     */
     @Override
     public void updateStatus(QQAPI qqapi, String s) {
 

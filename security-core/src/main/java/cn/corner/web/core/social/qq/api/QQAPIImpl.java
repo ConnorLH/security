@@ -35,12 +35,14 @@ public class QQAPIImpl extends AbstractOAuth2ApiBinding implements QQAPI {
         super(accessToken,TokenStrategy.ACCESS_TOKEN_PARAMETER);
         this.appid = appid;
 
+        // accessToken换openid
         String url = String.format(URL_GET_OPENID,accessToken);
 
         String result = getRestTemplate().getForObject(url, String.class);
 
         log.info(result);
 
+        // 这里是否可以考虑将accessToken和openid放到ThreadLocal中，这样QQAPI就不用每个用户请求就创建一次了？？？
         this.openid = StringUtils.substringBetween(result,"\"openid\":\"","\"}");
     }
 

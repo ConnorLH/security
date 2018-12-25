@@ -49,6 +49,11 @@ public class WeixinConnectionFactory extends OAuth2ConnectionFactory<WeixinAPI> 
 		return new OAuth2Connection<WeixinAPI>(data, getOAuth2ServiceProvider(), getApiAdapter(data.getProviderUserId()));
 	}
 
+	/**
+	 * 覆盖以上两个方法其实都是为了要重写这个方法，因为每个请求都是不同的用户，而用户的openId信息封装到WeixinAdapter中的，所以每个用户都要有自己的ApiAdapter，所以这里需要new，不能直接从ConnectionFactory中拿那相同的一个。（PS：这种实现不太好，需要改进）
+	 * @param providerUserId
+	 * @return
+	 */
 	private ApiAdapter<WeixinAPI> getApiAdapter(String providerUserId) {
 		return new WeixinAdapter(providerUserId);
 	}
